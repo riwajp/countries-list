@@ -12,14 +12,6 @@ const ListItem = ({
 
   const toggleEditMode = () => setEditMode(!edit_mode);
 
-  const saveItem = () => {
-    const items_temp = [...items];
-    items_temp[index] = item;
-    if (item["new"]) {
-      delete item["new"];
-    }
-    setItems(items_temp);
-  };
   const cancel = () => {
     toggleEditMode();
     setItem(items[index]);
@@ -28,8 +20,6 @@ const ListItem = ({
   const deleteBtn = () => {
     const handleClick = () => {
       if (item?.new || !edit_mode) {
-        if (item.new) {
-        }
         deleteItem(item);
       } else {
         cancel();
@@ -44,7 +34,12 @@ const ListItem = ({
   const editBtn = () => {
     const handleClick = () => {
       if (edit_mode) {
-        saveItem(item);
+        const items_temp = [...items];
+        items_temp[index] = item;
+        if (item["new"]) {
+          delete item["new"];
+        }
+        setItems(items_temp);
       }
       toggleEditMode();
     };
