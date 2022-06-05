@@ -1,7 +1,7 @@
 import ListItem from "./ListItem";
 import { useState } from "react";
 
-const List = ({ items: items_props }) => {
+const List = ({ title, items: items_props }) => {
   const [items, setItems] = useState(items_props);
 
   const deleteItem = (item) =>
@@ -23,7 +23,6 @@ const List = ({ items: items_props }) => {
         ppulation: 0,
         language: "",
         pci: 0,
-        new: true,
       },
     ]);
   };
@@ -34,13 +33,14 @@ const List = ({ items: items_props }) => {
       item={item}
       deleteItem={deleteItem}
       storeItem={storeItem}
+      isNew={!items_props.includes(item)}
     />
   ));
 
   return (
     <div className="list-container">
       <div className="list">
-        <h1 className="list__title">Countries List</h1>
+        <h1 className="list__title">{title}</h1>
 
         {render_items}
       </div>

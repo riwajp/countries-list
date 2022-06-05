@@ -28,7 +28,7 @@ function App() {
   ];
   return (
     <div className="App">
-      <List items={list_items} />
+      <List title="Countries List" items={list_items} />
       <ListItem item={list_items[0]} />
     </div>
   );

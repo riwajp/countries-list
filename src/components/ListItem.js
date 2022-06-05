@@ -1,8 +1,10 @@
 import { useState, useEffect, useMemo } from "react";
-const ListItem = ({ item: item_props, deleteItem, storeItem }) => {
-  const [edit_mode, setEditMode] = useState(item_props?.new);
+const ListItem = ({ item: item_props, deleteItem, storeItem, isNew }) => {
   const [item, setItem] = useState(item_props);
+
   const [new_item, setNewItem] = useState(item_props);
+  const [edit_mode, setEditMode] = useState(isNew);
+
   const delete_mode = useMemo(() => item?.new || !edit_mode, [edit_mode, item]);
 
   const toggleEditMode = () => setEditMode(!edit_mode);
@@ -13,9 +15,7 @@ const ListItem = ({ item: item_props, deleteItem, storeItem }) => {
   };
   const saveItem = () => {
     const temp_new_item = new_item;
-    if (temp_new_item["new"]) {
-      delete temp_new_item["new"];
-    }
+
     setItem(temp_new_item);
   };
 
@@ -60,8 +60,10 @@ const ListItem = ({ item: item_props, deleteItem, storeItem }) => {
           <div className="list__item__key" key={key}>
             {edit_mode ? (
               <input
-                value={new_item[key]}
-                onChange={(e) => setNewItem({ ...item, [key]: e.target.value })}
+                value={new_item ? new_item[key] : ""}
+                onChange={(e) =>
+                  setNewItem({ ...new_item, [key]: e.target.value })
+                }
                 style={{ maxWidth: "100%" }}
               />
             ) : (
