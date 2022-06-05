@@ -13,11 +13,6 @@ const ListItem = ({ item: item_props, deleteItem, storeItem, isNew }) => {
     setNewItem(item);
     toggleEditMode();
   };
-  const saveItem = () => {
-    const temp_new_item = new_item;
-
-    setItem(temp_new_item);
-  };
 
   const deleteBtn = () => {
     const handleClick = () => {
@@ -37,7 +32,6 @@ const ListItem = ({ item: item_props, deleteItem, storeItem, isNew }) => {
     const handleClick = () => {
       if (edit_mode) {
         setItem(new_item);
-        saveItem(item);
       }
       toggleEditMode();
     };
