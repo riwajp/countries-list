@@ -1,10 +1,19 @@
 import ListItem from "./ListItem";
 import { useState } from "react";
 
-const List = ({ items: items_props, deleteBtn, editBtn }) => {
+const List = ({ items: items_props }) => {
   const [items, setItems] = useState(items_props);
+
   const deleteItem = (item) =>
     setItems(items.filter((i) => i.key !== item.key));
+
+  const storeItem = (item) => {
+    const items_temp = items;
+    const item_index = items.findIndex((i) => item.key == i.key);
+    items_temp[item_index] = item;
+    setItems(items_temp);
+  };
+
   const addItem = () => {
     setItems([
       ...items,
@@ -19,16 +28,12 @@ const List = ({ items: items_props, deleteBtn, editBtn }) => {
     ]);
   };
 
-  const render_items = items.map((item, index) => (
+  const render_items = items.map((item) => (
     <ListItem
       key={item.key}
       item={item}
       deleteItem={deleteItem}
-      items={items}
-      setItems={setItems}
-      deleteBtn={deleteBtn}
-      editBtn={editBtn}
-      index={index}
+      storeItem={storeItem}
     />
   ));
 

@@ -1,25 +1,27 @@
-import { useState } from "react";
-const ListItem = ({
-  item: item_props,
-  deleteItem,
-
-  items,
-  setItems,
-  index,
-}) => {
+import { useState, useEffect, useMemo } from "react";
+const ListItem = ({ item: item_props, deleteItem, storeItem }) => {
   const [edit_mode, setEditMode] = useState(item_props?.new);
   const [item, setItem] = useState(item_props);
+  const [new_item, setNewItem] = useState(item_props);
+  const delete_mode = useMemo(() => item?.new || !edit_mode, [edit_mode, item]);
 
   const toggleEditMode = () => setEditMode(!edit_mode);
 
   const cancel = () => {
+    setNewItem(item);
     toggleEditMode();
-    setItem(items[index]);
+  };
+  const saveItem = () => {
+    const temp_new_item = new_item;
+    if (temp_new_item["new"]) {
+      delete temp_new_item["new"];
+    }
+    setItem(temp_new_item);
   };
 
   const deleteBtn = () => {
     const handleClick = () => {
-      if (item?.new || !edit_mode) {
+      if (delete_mode) {
         deleteItem(item);
       } else {
         cancel();
@@ -27,19 +29,15 @@ const ListItem = ({
     };
     return (
       <button className="button button--delete--right" onClick={handleClick}>
-        {item?.new || !edit_mode ? "Delete" : "Cancel"}
+        {delete_mode ? "Delete" : "Cancel"}
       </button>
     );
   };
   const editBtn = () => {
     const handleClick = () => {
       if (edit_mode) {
-        const items_temp = [...items];
-        items_temp[index] = item;
-        if (item["new"]) {
-          delete item["new"];
-        }
-        setItems(items_temp);
+        setItem(new_item);
+        saveItem(item);
       }
       toggleEditMode();
     };
@@ -50,6 +48,10 @@ const ListItem = ({
     );
   };
 
+  useEffect(() => {
+    storeItem(item);
+  }, [item]);
+
   return (
     <div className="list__item">
       {Object.keys(item)
@@ -58,8 +60,8 @@ const ListItem = ({
           <div className="list__item__key" key={key}>
             {edit_mode ? (
               <input
-                value={item[key]}
-                onChange={(e) => setItem({ ...item, [key]: e.target.value })}
+                value={new_item[key]}
+                onChange={(e) => setNewItem({ ...item, [key]: e.target.value })}
                 style={{ maxWidth: "100%" }}
               />
             ) : (
@@ -72,6 +74,11 @@ const ListItem = ({
       {editBtn()}
     </div>
   );
+};
+
+ListItem.defaultProps = {
+  deleteItem: () => {},
+  storeItem: () => {},
 };
 
 export default ListItem;
