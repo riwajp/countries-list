@@ -1,42 +1,80 @@
-import { useEffect } from "react";
 import { useState } from "react";
 const ListItem = ({
   item: item_props,
   deleteItem,
-  deleteBtn,
-  editBtn,
+
   items,
   setItems,
   index,
 }) => {
-  const [edit_mode, setEditMode] = useState(false);
+  const [edit_mode, setEditMode] = useState(item_props?.new);
   const [item, setItem] = useState(item_props);
 
-  const toogleEditMode = () => setEditMode(!edit_mode);
+  const toggleEditMode = () => setEditMode(!edit_mode);
 
-  const saveItem = (item) => {
+  const saveItem = () => {
     const items_temp = [...items];
     items_temp[index] = item;
+    if (item["new"]) {
+      delete item["new"];
+    }
     setItems(items_temp);
   };
+  const cancel = () => {
+    toggleEditMode();
+    setItem(items[index]);
+  };
+
+  const deleteBtn = () => {
+    const handleClick = () => {
+      if (item?.new || !edit_mode) {
+        if (item.new) {
+        }
+        deleteItem(item);
+      } else {
+        cancel();
+      }
+    };
+    return (
+      <button className="button button--delete--right" onClick={handleClick}>
+        {item?.new || !edit_mode ? "Delete" : "Cancel"}
+      </button>
+    );
+  };
+  const editBtn = () => {
+    const handleClick = () => {
+      if (edit_mode) {
+        saveItem(item);
+      }
+      toggleEditMode();
+    };
+    return (
+      <button className="button button--edit--right" onClick={handleClick}>
+        {edit_mode ? "Save" : "Edit"}
+      </button>
+    );
+  };
+
   return (
     <div className="list__item">
-      {Object.keys(item).map((key) => (
-        <div className="list__item__key" key={key}>
-          {edit_mode ? (
-            <input
-              value={item[key]}
-              onChange={(e) => setItem({ ...item, [key]: e.target.value })}
-              style={{ maxWidth: "100%" }}
-            />
-          ) : (
-            item[key]
-          )}
-        </div>
-      ))}
-      {deleteBtn(item, deleteItem, toogleEditMode)}
+      {Object.keys(item)
+        .filter((k) => k !== "new" && k !== "key") //do not display fields `key` and `new`
+        .map((key) => (
+          <div className="list__item__key" key={key}>
+            {edit_mode ? (
+              <input
+                value={item[key]}
+                onChange={(e) => setItem({ ...item, [key]: e.target.value })}
+                style={{ maxWidth: "100%" }}
+              />
+            ) : (
+              item[key]
+            )}
+          </div>
+        ))}
+      {deleteBtn()}
 
-      {editBtn(toogleEditMode, edit_mode, saveItem, item)}
+      {editBtn()}
     </div>
   );
 };

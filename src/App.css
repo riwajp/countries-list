@@ -16,10 +16,7 @@
   
 }
 
-.list{
- 
-  
-}
+
 
 .list__title{
   font-size:1.7rem;
@@ -75,3 +72,11 @@
   margin-left:1rem;
 
 }
+
+.button--add{
+  background-color: rgb(26, 187, 26);
+  color:white;
+  
+ 
+}
+
