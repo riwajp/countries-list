@@ -1,4 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
+import ArrayField from "./ArrayField";
+import TextField from "./TextField";
 const ListItem = ({ item: item_props, deleteItem, storeItem, isNew }) => {
   const [item, setItem] = useState(item_props);
 
@@ -46,28 +48,40 @@ const ListItem = ({ item: item_props, deleteItem, storeItem, isNew }) => {
     storeItem(item);
   }, [item]);
 
+  const string_keys = useMemo(
+    () =>
+      Object.keys(item).filter(
+        (key) => typeof item[key] == "string" || typeof item[key] == "number"
+      ),
+    [item]
+  );
+  const array_keys = useMemo(
+    () => Object.keys(item).filter((key) => Array.isArray(item[key])),
+    [item]
+  );
   return (
-    <div className="list__item">
-      {Object.keys(item)
-        .filter((k) => k !== "new" && k !== "key") //do not display fields `key` and `new`
-        .map((key) => (
-          <div className="list__item__key" key={key}>
-            {edit_mode ? (
-              <input
-                value={new_item ? new_item[key] : ""}
-                onChange={(e) =>
-                  setNewItem({ ...new_item, [key]: e.target.value })
-                }
-                style={{ maxWidth: "100%" }}
+    <div>
+      <div className="list__item">
+        {string_keys //do not display fields `key` and `new`
+          .map((key) => (
+            <div className="list__item__key" key={key}>
+              <TextField
+                edit_mode={edit_mode}
+                handleChange={(val) => setNewItem({ ...new_item, [key]: val })}
+                edit_value={new_item ? new_item[key] : ""}
+                value={item[key]}
               />
-            ) : (
-              item[key]
-            )}
-          </div>
-        ))}
-      {deleteBtn()}
+            </div>
+          ))}
 
-      {editBtn()}
+        {array_keys.map((key) => (
+          <ArrayField title={key} item={item[key]} />
+        ))}
+
+        {deleteBtn()}
+
+        {editBtn()}
+      </div>
     </div>
   );
 };

@@ -6,24 +6,29 @@ function App() {
   const list_items = [
     {
       key: 1,
-      name: "Nepal",
+      value: "Nepal",
       population: 29000000,
       language: "Nepali",
       pci: 1196,
+      cities: ["Kathmandu", "Pokhara"],
     },
     {
       key: 2,
-      name: "India",
+      value: "India",
       population: 190382761,
       language: "Hindi",
       pci: 2200,
+      pci: 1196,
+      cities: ["Mumbai", "Delhi"],
     },
     {
       key: 3,
-      name: "China",
+      value: "China",
       population: 200382761,
       language: "Mandarin",
       pci: 3000,
+      pci: 1196,
+      cities: ["Shanghai", "Beijing"],
     },
   ];
   return (
