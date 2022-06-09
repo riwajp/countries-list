@@ -1,8 +1,9 @@
 import React from "react";
 
-function TextField({ edit_mode, handleChange, value, edit_value }) {
+function TextField({ name, edit_mode, handleChange, value, edit_value }) {
   return (
-    <div>
+    <div className="text-field">
+      <div className="text-field__label">{name}</div>
       {edit_mode ? (
         <input
           value={edit_value}
@@ -10,7 +11,7 @@ function TextField({ edit_mode, handleChange, value, edit_value }) {
           style={{ maxWidth: "100%" }}
         />
       ) : (
-        value
+        <div className="text-field__value">{value}</div>
       )}
     </div>
   );

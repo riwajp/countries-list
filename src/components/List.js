@@ -23,6 +23,7 @@ const List = ({ title, items: items_props }) => {
         ppulation: 0,
         language: "",
         pci: 0,
+        cities: [],
       },
     ]);
   };

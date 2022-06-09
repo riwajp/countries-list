@@ -10,7 +10,20 @@ function App() {
       population: 29000000,
       language: "Nepali",
       pci: 1196,
-      cities: ["Kathmandu", "Pokhara"],
+      cities: [
+        {
+          key: 1,
+          value: "Kathmandu",
+          population: 3000000,
+          language: "Nepali",
+        },
+        {
+          key: 2,
+          value: "Pokhara",
+          population: 1000000,
+          language: "Nepali",
+        },
+      ],
     },
     {
       key: 2,
@@ -19,7 +32,20 @@ function App() {
       language: "Hindi",
       pci: 2200,
       pci: 1196,
-      cities: ["Mumbai", "Delhi"],
+      cities: [
+        {
+          key: 1,
+          value: "Mumbai",
+          population: 212323123,
+          language: "Hindi",
+        },
+        {
+          key: 2,
+          value: "Banglore",
+          population: 3123452,
+          language: "Hindi",
+        },
+      ],
     },
     {
       key: 3,
@@ -27,8 +53,20 @@ function App() {
       population: 200382761,
       language: "Mandarin",
       pci: 3000,
-      pci: 1196,
-      cities: ["Shanghai", "Beijing"],
+      cities: [
+        {
+          key: 1,
+          value: "Beijing",
+          population: 23123243,
+          language: "Chinese",
+        },
+        {
+          key: 2,
+          value: "Shanghai",
+          population: 12123212,
+          language: "Chinese",
+        },
+      ],
     },
   ];
   return (
