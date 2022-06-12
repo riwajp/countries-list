@@ -1,7 +1,6 @@
 import "./App.css";
 import List from "./components/List";
-import ListItem from "./components/ListItem";
-
+import { useState } from "react";
 function App() {
   const list_items = [
     {
@@ -10,20 +9,6 @@ function App() {
       population: 29000000,
       language: "Nepali",
       pci: 1196,
-      cities: [
-        {
-          key: 1,
-          value: "Kathmandu",
-          population: 3000000,
-          language: "Nepali",
-        },
-        {
-          key: 2,
-          value: "Pokhara",
-          population: 1000000,
-          language: "Nepali",
-        },
-      ],
     },
     {
       key: 2,
@@ -32,20 +17,6 @@ function App() {
       language: "Hindi",
       pci: 2200,
       pci: 1196,
-      cities: [
-        {
-          key: 1,
-          value: "Mumbai",
-          population: 212323123,
-          language: "Hindi",
-        },
-        {
-          key: 2,
-          value: "Banglore",
-          population: 3123452,
-          language: "Hindi",
-        },
-      ],
     },
     {
       key: 3,
@@ -53,26 +24,24 @@ function App() {
       population: 200382761,
       language: "Mandarin",
       pci: 3000,
-      cities: [
-        {
-          key: 1,
-          value: "Beijing",
-          population: 23123243,
-          language: "Chinese",
-        },
-        {
-          key: 2,
-          value: "Shanghai",
-          population: 12123212,
-          language: "Chinese",
-        },
-      ],
     },
+  ];
+
+  const [items, setItems] = useState(list_items);
+  const schema = [
+    { name: "value", type: "text" },
+    { name: "population", type: "number" },
+    { name: "language", type: "text" },
+    { name: "pci", type: "number" },
   ];
   return (
     <div className="App">
-      <List title="Countries List" items={list_items} />
-      <ListItem item={list_items[0]} />
+      <List
+        title="Countries List"
+        items={items}
+        setItems={setItems}
+        schema={schema}
+      />
     </div>
   );
 }

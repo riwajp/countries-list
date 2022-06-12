@@ -39,10 +39,11 @@
 .list__item__key{
   display:inline-block;
   width:10rem;
+  
   padding-left:0.5rem;
   padding-right:0.5rem;
   margin-right:auto;
-  font-size: 2.5rem;
+  font-size: 1.2rem;
 
   
 }
@@ -133,4 +134,8 @@
   display:flex;
 
 
+}
+
+input{
+  width:100%;
 }

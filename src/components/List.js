@@ -1,29 +1,32 @@
 import ListItem from "./ListItem";
 import { useState } from "react";
 
-const List = ({ title, items: items_props }) => {
-  const [items, setItems] = useState(items_props);
+const List = ({ schema, title, items, setItems }) => {
+  const [new_items_key, setNewItemsKey] = useState([]);
 
   const deleteItem = (item) =>
     setItems(items.filter((i) => i.key !== item.key));
 
-  const storeItem = (item) => {
+  const saveItem = (item) => {
     const items_temp = items;
     const item_index = items.findIndex((i) => item.key == i.key);
     items_temp[item_index] = item;
+    setNewItemsKey(new_items_key.filter((i) => i !== item.key));
     setItems(items_temp);
   };
 
   const addItem = () => {
+    const key = Math.random();
+    setNewItemsKey([...new_items_key, key]);
+
     setItems([
       ...items,
       {
-        key: Math.random(),
-        name: "",
-        ppulation: 0,
-        language: "",
-        pci: 0,
-        cities: [],
+        key: key,
+        value: "Nepal",
+        population: 10000,
+        language: "Nepali",
+        pci: 1000,
       },
     ]);
   };
@@ -33,8 +36,9 @@ const List = ({ title, items: items_props }) => {
       key={item.key}
       item={item}
       deleteItem={deleteItem}
-      storeItem={storeItem}
-      isNew={!items_props.includes(item)}
+      saveItem={saveItem}
+      isNew={new_items_key.includes(item.key)}
+      schema={schema}
     />
   ));
 
