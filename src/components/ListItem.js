@@ -1,12 +1,14 @@
 import { useState, useEffect, useMemo } from "react";
 import FormInput from "./FormInput";
+import List from "./List";
 const ListItem = ({
   item: item_props,
   deleteItem,
   saveItem,
   isNew,
-
+  default_values,
   schema,
+  title,
 }) => {
   const [item, setItem] = useState(item_props);
 
@@ -54,29 +56,43 @@ const ListItem = ({
     saveItem(item);
   }, [item]);
 
+  const keys = Object.keys(item).filter((k) => k !== "new" && k !== "key");
+  const array_keys = keys.filter((k) => Array.isArray(item[k]));
+  const other_keys = keys.filter((k) => !array_keys.includes(k));
+
   return (
-    <div className="list__item">
-      {Object.keys(item)
-        .filter((k) => k !== "new" && k !== "key") //do not display fields `key` and `new`
-        .map((key) => (
+    <div>
+      <div className="list__item">
+        {other_keys.map((key) => (
           <div className="list__item__key" key={key}>
             {edit_mode ? (
               <FormInput
                 name={key}
-                type={schema.find((s) => s.name == key)?.type}
+                type={schema[title].find((s) => s.name == key)?.type}
                 value={new_item ? new_item[key] : ""}
                 controlled
-                controlled_filters={new_item}
-                setControlledFilters={setNewItem}
+                handleChange={(key, value) =>
+                  setNewItem({ ...new_item, [key]: value })
+                }
               />
             ) : (
               item[key]
             )}
           </div>
+        ))}{" "}
+        {deleteBtn()}
+        {editBtn()}
+        {array_keys.map((key) => (
+          <List
+            key={key}
+            title={key}
+            items={item[key]}
+            setItems={(value) => setItem({ ...item, [key]: value })}
+            schema={schema}
+            default_values={default_values}
+          />
         ))}
-      {deleteBtn()}
-
-      {editBtn()}
+      </div>
     </div>
   );
 };

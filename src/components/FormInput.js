@@ -9,8 +9,7 @@ const FilterInput = forwardRef(
 
       options,
       controlled,
-      setControlledFilters,
-      controlled_filters,
+      handleChange,
       ...field
     },
     ref
@@ -19,12 +18,8 @@ const FilterInput = forwardRef(
     if (controlled) {
       controlled_props = {
         onChange: (e) => {
-          setControlledFilters({
-            ...controlled_filters,
-            [name]: e.target.value,
-          });
+          handleChange(name, e.target.value);
         },
-        value: controlled_filters[name] || "",
       };
     }
     switch (type) {
