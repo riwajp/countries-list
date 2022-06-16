@@ -35,6 +35,7 @@ function App() {
       language: "Hindi",
       pci: 2200,
       pci: 1196,
+      cities: [],
     },
     {
       key: 3,
@@ -42,6 +43,7 @@ function App() {
       population: 200382761,
       language: "Mandarin",
       pci: 3000,
+      cities: [],
     },
   ];
 

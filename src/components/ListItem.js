@@ -87,7 +87,10 @@ const ListItem = ({
             key={key}
             title={key}
             items={item[key]}
-            setItems={(value) => setItem({ ...item, [key]: value })}
+            setItems={(value) => {
+              setItem({ ...item, [key]: value });
+              setNewItem({ ...new_item, [key]: value });
+            }}
             schema={schema}
             default_values={default_values}
           />
